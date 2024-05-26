@@ -38,20 +38,21 @@ public class BallController : MonoBehaviour
         maxPower = 10;
     
         showLevel.text = (LevelManager.Instance.currentLevel-1).ToString();
-        maxPutts = 2;
+        maxPutts = 15;
 
     }
 
     void Update()
-    {
-       if(ball.velocity.magnitude == 0f){
+    {   
+        print(ball.velocity.magnitude.ToString());
+       if(ball.velocity.magnitude < 0.1f){
         Debug.Log(Vector3.Distance(transform.position, lastPosition).ToString());
         if((ball.velocity.magnitude==0 && putts == maxPutts && Vector3.Distance(transform.position, lastPosition) > 0f) || TimerCountdown.countdownTime == 0){
             LevelManager.Instance.CountPutts(maxPutts+3);
             LevelManager.Instance.CountTotalPutts();
             LevelManager.Instance.currentLevel++;
             ScoreboardManager.scoreboardManager.UptadeScoreboard();
-            TimerCountdown.countdownTime = 90;
+            TimerCountdown.countdownTime = 90f;
             SceneManager.LoadScene(LevelManager.Instance.currentLevel);
         }
         if(Input.GetKeyUp(KeyCode.Space)){
@@ -120,6 +121,7 @@ public class BallController : MonoBehaviour
             LevelManager.Instance.CountPutts(putts);
             LevelManager.Instance.currentLevel++;
             LevelManager.Instance.CountTotalPutts();
+            TimerCountdown.countdownTime = 90f;
             SceneManager.LoadScene(LevelManager.Instance.currentLevel);
         }
     }
