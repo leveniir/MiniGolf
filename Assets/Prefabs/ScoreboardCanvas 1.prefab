@@ -1522,7 +1522,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &463979404349483258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1552,6 +1552,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe56b0df9c4b3647b2e4d219c347666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player1: []
+  player2: []
+  player3: []
+  player4: []
+  player5: []
+  player6: []
+  player7: []
+  player8: []
+  numOfPlayers: 0
   canvas: {fileID: 4222109452075144901}
   playerName: {fileID: 6723619232602142992}
   playerTotalScore: {fileID: 6205244523577775968}

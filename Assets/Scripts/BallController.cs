@@ -15,7 +15,12 @@ public class BallController : MonoBehaviour
     public TextMeshProUGUI puttsCountLabel;
     public TextMeshProUGUI showLevel;
     public float minHoleTime;
-    
+    static public bool ballHit;
+    static public bool ballStop;
+    static public bool ballInHole;
+    static public bool allReady; // zwrocenie czy wszycy gracze gotowi 
+
+
 
 
     private LineRenderer line;
@@ -31,6 +36,10 @@ public class BallController : MonoBehaviour
 
     void Awake()
     {
+        ballHit = false;
+        ballInHole = false;
+        ballStop = false;
+
         ball = GetComponent<Rigidbody>();
         ball.maxAngularVelocity = 1000;
         line = GetComponent<LineRenderer>();
@@ -46,32 +55,43 @@ public class BallController : MonoBehaviour
     {   
         print(ball.velocity.magnitude.ToString());
        if(ball.velocity.magnitude < 0.1f){
+            ballHit = false;
+            ballStop = true;
         Debug.Log(Vector3.Distance(transform.position, lastPosition).ToString());
         if((ball.velocity.magnitude==0 && putts == maxPutts && Vector3.Distance(transform.position, lastPosition) > 0f) || TimerCountdown.countdownTime == 0){
+            ballInHole = true;
+            // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
+            // allRead = funkcja();
+            if (allReady){
+            allReady = false;
+            ballInHole = false;
             LevelManager.Instance.CountPutts(maxPutts+3);
             LevelManager.Instance.CountTotalPutts();
             LevelManager.Instance.currentLevel++;
             ScoreboardManager.scoreboardManager.UptadeScoreboard();
             TimerCountdown.countdownTime = 90f;
             SceneManager.LoadScene(LevelManager.Instance.currentLevel);
+            }
         }
-        if(Input.GetKeyUp(KeyCode.Space)){
+        if(Input.GetKeyUp(KeyCode.Space) && putts != maxPutts){
+            ballHit = true;
+            ballStop = false;
             Putt();
             UpdateLinePositions();
         }
-        if(Input.GetKey(KeyCode.Space)){
+        if(Input.GetKey(KeyCode.Space) && putts != maxPutts){
             PowerUp();
             UpdateLinePositions();
         }
        } else {
         line.enabled = false;
        }
-       if(Input.GetKey(KeyCode.Tab))
+       /*if(Input.GetKey(KeyCode.Tab))
        {
             ScoreboardManager.scoreboardManager.canvas.enabled=true;
        } else {
             ScoreboardManager.scoreboardManager.canvas.enabled=false;
-       }
+       }*/
        
         
     }
@@ -86,6 +106,7 @@ public class BallController : MonoBehaviour
     private void Putt() {
         lastPosition = transform.position;
         ball.AddForce(Quaternion.Euler(0f, cam.eulerAngles.y, 0f)*Vector3.forward*maxPower*power,ForceMode.Impulse);
+        // funkcja wysylajaca na serwer cam.eulerAngles.y, power i lastPosition
         power = 0;
         powerSlider.value = 0;
         powerUpTime = 0;
@@ -117,12 +138,18 @@ public class BallController : MonoBehaviour
     private void CountHoleTime(){
         holeTime += Time.deltaTime;
         if(holeTime >= minHoleTime){
+            ballInHole = true; // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
+            // allRead = funkcja();
+            if (allReady){
+            allReady = false;
             holeTime = 0;
+            ballInHole = false;
             LevelManager.Instance.CountPutts(putts);
             LevelManager.Instance.currentLevel++;
             LevelManager.Instance.CountTotalPutts();
             TimerCountdown.countdownTime = 90f;
             SceneManager.LoadScene(LevelManager.Instance.currentLevel);
+            }
         }
     }
 
@@ -134,12 +161,19 @@ public class BallController : MonoBehaviour
         if(collision.collider.tag == "Out of bounds"){
             if(putts == maxPutts)
             {
-                LevelManager.Instance.CountPutts(maxPutts+3);
-            LevelManager.Instance.CountTotalPutts();
-            LevelManager.Instance.currentLevel++;
-            ScoreboardManager.scoreboardManager.UptadeScoreboard();
-            TimerCountdown.countdownTime = 30;
-            SceneManager.LoadScene(LevelManager.Instance.currentLevel);
+                ballInHole = true;
+                // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
+                // allRead = funkcja();
+                if (allReady)
+                {
+                    LevelManager.Instance.CountPutts(maxPutts+3);
+                    LevelManager.Instance.CountTotalPutts();
+                    LevelManager.Instance.currentLevel++;
+                    ScoreboardManager.scoreboardManager.UptadeScoreboard();
+                    TimerCountdown.countdownTime = 90f;
+                    SceneManager.LoadScene(LevelManager.Instance.currentLevel);
+                }
+          
             }
             transform.position = lastPosition;
             ball.velocity = Vector3.zero;
