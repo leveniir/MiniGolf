@@ -15,12 +15,9 @@ public class BallController : MonoBehaviour
     public TextMeshProUGUI puttsCountLabel;
     public TextMeshProUGUI showLevel;
     public float minHoleTime;
-    static public bool ballHit;
-    static public bool ballStop;
+    public int ballStop;
     static public bool ballInHole;
     static public bool allReady; // zwrocenie czy wszycy gracze gotowi 
-
-
 
 
     private LineRenderer line;
@@ -36,9 +33,9 @@ public class BallController : MonoBehaviour
 
     void Awake()
     {
-        ballHit = false;
+
         ballInHole = false;
-        ballStop = false;
+        ballStop = 0;
 
         ball = GetComponent<Rigidbody>();
         ball.maxAngularVelocity = 1000;
@@ -55,11 +52,12 @@ public class BallController : MonoBehaviour
     {   
         print(ball.velocity.magnitude.ToString());
        if(ball.velocity.magnitude < 0.1f){
-            ballHit = false;
-            ballStop = true;
-        Debug.Log(Vector3.Distance(transform.position, lastPosition).ToString());
         if((ball.velocity.magnitude==0 && putts == maxPutts && Vector3.Distance(transform.position, lastPosition) > 0f) || TimerCountdown.countdownTime == 0){
-            ballInHole = true;
+            if (ballStop == 0)
+            {
+                // wywolanie funkcji na serwer, ze pilka sie zatrzymal
+                ballStop++;
+            }
             // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
             // allRead = funkcja();
             if (allReady){
@@ -68,14 +66,14 @@ public class BallController : MonoBehaviour
             LevelManager.Instance.CountPutts(maxPutts+3);
             LevelManager.Instance.CountTotalPutts();
             LevelManager.Instance.currentLevel++;
-            ScoreboardManager.scoreboardManager.UptadeScoreboard();
+            //ScoreboardManager.scoreboardManager.UptadeScoreboard();
             TimerCountdown.countdownTime = 90f;
             SceneManager.LoadScene(LevelManager.Instance.currentLevel);
             }
         }
         if(Input.GetKeyUp(KeyCode.Space) && putts != maxPutts){
-            ballHit = true;
-            ballStop = false;
+            // wywolanie funkcji przesylajacej na serwer, ze pilka zostala uderzona
+            ballStop = 0;
             Putt();
             UpdateLinePositions();
         }
@@ -86,14 +84,7 @@ public class BallController : MonoBehaviour
        } else {
         line.enabled = false;
        }
-       /*if(Input.GetKey(KeyCode.Tab))
-       {
-            ScoreboardManager.scoreboardManager.canvas.enabled=true;
-       } else {
-            ScoreboardManager.scoreboardManager.canvas.enabled=false;
-       }*/
        
-        
     }
 
     private void UpdateLinePositions()
@@ -106,14 +97,14 @@ public class BallController : MonoBehaviour
     private void Putt() {
         lastPosition = transform.position;
         ball.AddForce(Quaternion.Euler(0f, cam.eulerAngles.y, 0f)*Vector3.forward*maxPower*power,ForceMode.Impulse);
-        // funkcja wysylajaca na serwer cam.eulerAngles.y, power i lastPosition
+        // funkcja wysylajaca na serwer cam.eulerAngles.y, power i lastPosition.x, last.position.y, lastposition.y
         power = 0;
         powerSlider.value = 0;
         powerUpTime = 0;
         putts++;
         LevelManager.Instance.CountPutts(putts);
         LevelManager.Instance.CountTotalPutts();
-        ScoreboardManager.scoreboardManager.UptadeScoreboard();
+        //ScoreboardManager.scoreboardManager.UptadeScoreboard();
         puttsCountLabel.text = putts.ToString();
     }
 
@@ -161,7 +152,6 @@ public class BallController : MonoBehaviour
         if(collision.collider.tag == "Out of bounds"){
             if(putts == maxPutts)
             {
-                ballInHole = true;
                 // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
                 // allRead = funkcja();
                 if (allReady)
@@ -169,7 +159,7 @@ public class BallController : MonoBehaviour
                     LevelManager.Instance.CountPutts(maxPutts+3);
                     LevelManager.Instance.CountTotalPutts();
                     LevelManager.Instance.currentLevel++;
-                    ScoreboardManager.scoreboardManager.UptadeScoreboard();
+                    //ScoreboardManager.scoreboardManager.UptadeScoreboard();
                     TimerCountdown.countdownTime = 90f;
                     SceneManager.LoadScene(LevelManager.Instance.currentLevel);
                 }

@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        currentLevel = 2;
+        currentLevel = 3;
         totalPutts = 0;
         Instance = this;
         DontDestroyOnLoad(gameObject);
@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
     }
     public void CountPutts(int putts)
     {
-        levelData[currentLevel-2][1] = putts;
+        levelData[currentLevel-3][1] = putts;
     }
     public void ChangeLevel()
     {

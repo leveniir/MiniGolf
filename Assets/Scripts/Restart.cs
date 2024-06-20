@@ -9,10 +9,10 @@ public class Restart : MonoBehaviour
    public void RestartGame()
    {
         LevelManager.Instance.totalPutts = 0;
-        LevelManager.Instance.currentLevel = 2;
+        LevelManager.Instance.currentLevel = 3;
         ResetLevelData(5);
-        ScoreboardManager.scoreboardManager.UptadeScoreboard();
-        SceneManager.LoadScene(2);
+        //ScoreboardManager.scoreboardManager.UptadeScoreboard();
+        SceneManager.LoadScene(1);
 
    }
    public static void ResetLevelData(int numberOfLevels)

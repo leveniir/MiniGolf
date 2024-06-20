@@ -29,15 +29,10 @@ public class ScoreboardManager : MonoBehaviour
 
     void Awake()
     {
-
+        
         // numofPlayers = funkcja() zwracanie ilosci graczy z serwera 
         // finalScore = funkcaj() zwrocenie posortowanej listy z serwera
-        if (scoreboardManager != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
+       
         players = new List<List<TextMeshProUGUI>> { player1, player2, player3, player4, player5, player6, player7, player8 };
 
         DeactivateTexts();
@@ -50,10 +45,17 @@ public class ScoreboardManager : MonoBehaviour
         plaeyrScoreHole2.text = LevelManager.levelData[1][1].ToString();
         plaeyrScoreHole3.text = LevelManager.levelData[2][1].ToString();
         plaeyrScoreHole4.text = LevelManager.levelData[3][1].ToString();
-        plaeyrScoreHole5.text = LevelManager.levelData[4][1].ToString();*/
+        plaeyrScoreHole5.text = LevelManager.levelData[4][1].ToString();
         scoreboardManager = this;
         DontDestroyOnLoad(gameObject);
         canvas.enabled = false;
+         if (scoreboardManager != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        */
+        
     }
     public void UptadeScoreboard()
     {

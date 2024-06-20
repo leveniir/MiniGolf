@@ -10,10 +10,6 @@ public class StartSceneScript : MonoBehaviour
 {
     public TMP_InputField inputPlayerName;
     public TMP_InputField privateKey;
-    public Image image;
-    public Image image1;
-    public Image image2;
-    public TMP_Text room_id;
     public PlayerInfo player;
     public Button createUser;
     public Button public_room;
@@ -21,24 +17,24 @@ public class StartSceneScript : MonoBehaviour
     public Button join_room;
     public Button create_room;
     public int roomType;
+    public Image disconnectMessage;
 
     void Awake()
     {
         roomType = 0;
         privateKey.gameObject.SetActive(false);
-        HidePublicId();
         HideButtons();
         
     }
     void Update()
     {
-        if (roomType != 0 && (inputPlayerName.text == "" || !IsNameValid(inputPlayerName.text)))
+        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text))
         {
-            createUser.interactable = false;
+            createUser.interactable = true;
         }
         else
         {
-            createUser.interactable = true;
+            createUser.interactable = false;
         }
     }
 
@@ -50,7 +46,7 @@ public class StartSceneScript : MonoBehaviour
     public void ButtonCreateUser()
     {    
         player.CreatePlayer(inputPlayerName.text);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     } 
 
     public void HideButtons()
@@ -63,36 +59,23 @@ public class StartSceneScript : MonoBehaviour
         join_room.gameObject.SetActive(true);
         create_room.gameObject.SetActive(true);
     }
-    public void HidePublicId()
-    {
-        room_id.enabled = false;
-        image1.enabled = false;
-        image.enabled = false;
-    }
-    public void ShowPublicId(string id)
-    {
-        room_id.enabled = true;
-        image1.enabled = true;
-        image.enabled = true;
-        room_id.text = id; 
-    }
     public void PublicButton()
     {
         privateKey.gameObject.SetActive(false);
         roomType = 1;
         HideButtons();
-        ShowPublicId("123"); // TUTAJ NALEZY PODAC ID PUBLICZNE Z SERWERA
+       
     }
     public void PrivateButton()
     {
         roomType = 0;
         ShowButtons();
-        HidePublicId();
     }
     public void CreateRoom()
     {
         roomType = 2;
-        privateKey.gameObject.SetActive(true);
+        privateKey.gameObject.SetActive(false);
+
     }
     public void JoinRoom()
     {
