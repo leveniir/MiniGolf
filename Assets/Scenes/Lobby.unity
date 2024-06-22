@@ -408,8 +408,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   message1: {fileID: 2028024289}
-  message2: {fileID: 1663306331}
-  timeText: {fileID: 0}
+  message2: {fileID: 1494201291}
+  timeText: {fileID: 1663306331}
   key: {fileID: 1870927571}
   startGame: {fileID: 557639645}
   roomType: 0
@@ -1749,7 +1749,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 30
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b31473897de9c2e4bbb93a7abc3ea127, type: 2}
   m_sharedMaterial: {fileID: 2106906084035200917, guid: b31473897de9c2e4bbb93a7abc3ea127, type: 2}

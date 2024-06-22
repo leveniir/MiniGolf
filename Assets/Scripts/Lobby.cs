@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Lobby : MonoBehaviour
@@ -11,14 +13,14 @@ public class Lobby : MonoBehaviour
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI key;
     public Button startGame;
-    public int roomType;
+    private int roomType;
     public int numOfPlayers;
     public int time;
     public List<string> players;
     public List<TextMeshProUGUI> playersNames;
 
     void Awake()
-    {   
+    { 
         // numOfPlayers = funcja pobierajaca ilosc graczy z serwera 
         // roomType = Funkcja zwracajaca z serwera typ pokoju
 
@@ -68,5 +70,9 @@ public class Lobby : MonoBehaviour
     {
         // wcisniecie prztcisku
         // wywolanie funkcji rozpoczecia gry dla wszytkich uzytkownikow
+    }
+    public void LoadNextScene()
+    {
+        SceneManager.LoadScene(3);
     }
 }
