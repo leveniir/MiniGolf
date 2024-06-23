@@ -23,6 +23,9 @@ public class Lobby : MonoBehaviour
     { 
         // numOfPlayers = funcja pobierajaca ilosc graczy z serwera 
         // roomType = Funkcja zwracajaca z serwera typ pokoju
+        //numOfPlayers = 2; test
+        //ActivateTexts(2);test
+        //roomType = 1;test
 
         if (roomType == 1)
         {
@@ -49,9 +52,11 @@ public class Lobby : MonoBehaviour
     public void ActivateTexts(int number)
     {
         // players = funkjca pobierajaca nazwy uzytkownikow z serwera
+        //List<string> players = new List<string> { "User1", "User2"}; test
 
         for (int i = 0; i < number; i++)
             {
+                Debug.Log(i);
                 playersNames[i].gameObject.SetActive(true);
                 playersNames[i].text = players[i];
             }

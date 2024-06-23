@@ -412,11 +412,18 @@ MonoBehaviour:
   timeText: {fileID: 1663306331}
   key: {fileID: 1870927571}
   startGame: {fileID: 557639645}
-  roomType: 0
   numOfPlayers: 0
   time: 0
   players: []
-  playersNames: []
+  playersNames:
+  - {fileID: 981491933}
+  - {fileID: 734387283}
+  - {fileID: 1112337133}
+  - {fileID: 1793897899}
+  - {fileID: 1591320057}
+  - {fileID: 1087714991}
+  - {fileID: 2132468311}
+  - {fileID: 810588713}
 --- !u!1 &734387281
 GameObject:
   m_ObjectHideFlags: 0
