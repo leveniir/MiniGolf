@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5104674779347722555}
   - component: {fileID: 6332495719195361263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: OtherPlayers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,6 +61,7 @@ MonoBehaviour:
   - {fileID: 8254785821306142464}
   numOfPlayers: 0
   maxPower: 10
+  playersNames: []
 --- !u!1001 &90332986120986025
 PrefabInstance:
   m_ObjectHideFlags: 0
