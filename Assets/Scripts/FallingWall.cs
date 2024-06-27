@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class FallingWall : MonoBehaviour
 {
-    public GameObject wall;
+    Vector3 startPosition;
+    Quaternion startRotation;
     void Start() {
-        InvokeRepeating("LaunchProjectile", 0f, 2f);
+        startPosition = this.gameObject.transform.position;
+        startRotation = this.gameObject.transform.rotation;
     }
-    
-    void LaunchProjectile () {
-        Instantiate(wall, transform.position, Quaternion.identity);
-    }
-
+      
     void OnCollisionEnter(Collision other)
     {
         if (other.collider.tag == "Out of bounds")
         {
-            Destroy(wall);
+            this.gameObject.transform.position = startPosition;
+            this.gameObject.transform.rotation = startRotation;
         }
 
     }
