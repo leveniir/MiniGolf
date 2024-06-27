@@ -7,7 +7,6 @@ public class UnlockMouse : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ScoreboardManager.scoreboardManager.canvas.enabled=true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
