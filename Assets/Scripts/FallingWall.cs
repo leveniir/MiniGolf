@@ -6,9 +6,12 @@ public class FallingWall : MonoBehaviour
 {
     Vector3 startPosition;
     Quaternion startRotation;
+    Rigidbody rb;
+
     void Start() {
         startPosition = this.gameObject.transform.position;
         startRotation = this.gameObject.transform.rotation;
+        rb = this.gameObject.GetComponent<Rigidbody>();
     }
       
     void OnCollisionEnter(Collision other)
@@ -17,6 +20,8 @@ public class FallingWall : MonoBehaviour
         {
             this.gameObject.transform.position = startPosition;
             this.gameObject.transform.rotation = startRotation;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
 
     }
