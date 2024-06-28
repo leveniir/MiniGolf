@@ -16,11 +16,10 @@ public class OtherPlayersCollision : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {    
-        objectName = gameObject.name;
-        ballPosition = controllingBalls.GetLastPosition(objectName);
-
         if (collision.collider.tag == "Out of bounds")
         {  
+            objectName = gameObject.name;
+            ballPosition = controllingBalls.GetLastPosition(objectName);
             thisRigidbody.position = ballPosition;
             thisRigidbody.velocity = Vector3.zero;
             thisRigidbody.angularVelocity = Vector3.zero;
