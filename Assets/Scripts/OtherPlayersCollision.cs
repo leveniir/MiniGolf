@@ -6,20 +6,25 @@ public class OtherPlayersCollision : MonoBehaviour
 {
     public ControllingBalls controllingBalls;
     Vector3 ballPosition;
+    private Rigidbody thisRigidbody;
+    string objectName;
 
-     void OnCollisionEnter(Collision collision)
+    void Start()
+    {
+        thisRigidbody = GetComponent<Rigidbody>();
+    }
+
+    void OnCollisionEnter(Collision collision)
     {    
-        GameObject collidedObject = collision.gameObject;
-        Rigidbody collidedRigidbody = collidedObject.GetComponent<Rigidbody>();
+        objectName = gameObject.name;
+        ballPosition = controllingBalls.GetLastPosition(objectName);
 
-        ballPosition = controllingBalls.GetLastPosition(collidedObject.name);
-
-        if(collision.collider.tag == "Out of bounds"){
-            collidedRigidbody.position = ballPosition;
-            collidedRigidbody.velocity = Vector3.zero;
-            collidedRigidbody.angularVelocity = Vector3.zero;
-        
+        if (collision.collider.tag == "Out of bounds")
+        {  
+            thisRigidbody.position = ballPosition;
+            thisRigidbody.velocity = Vector3.zero;
+            thisRigidbody.angularVelocity = Vector3.zero;
         }
-   
     }
 }
+
