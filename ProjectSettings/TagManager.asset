@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hole
   - Out of bounds
+  - Obstacle
   layers:
   - Default
   - TransparentFX
