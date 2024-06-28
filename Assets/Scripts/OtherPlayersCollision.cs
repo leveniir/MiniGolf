@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class OtherPlayersCollision : MonoBehaviour
 {
-    public ControllingBalls controllingBalls;
     Vector3 ballPosition;
     private Rigidbody thisRigidbody;
     string objectName;
@@ -19,7 +18,7 @@ public class OtherPlayersCollision : MonoBehaviour
         if (collision.collider.tag == "Out of bounds")
         {  
             objectName = gameObject.name;
-            ballPosition = controllingBalls.GetLastPosition(objectName);
+            ballPosition = new Vector3 (LevelManager.Instance.ballsData[name][3], LevelManager.Instance.ballsData[name][4], LevelManager.Instance.ballsData[name][5]);
             thisRigidbody.position = ballPosition;
             thisRigidbody.velocity = Vector3.zero;
             thisRigidbody.angularVelocity = Vector3.zero;
