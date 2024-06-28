@@ -239,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5590f0e48fb99814e811fe66603715fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllingBalls: {fileID: 0}
 --- !u!1001 &175806930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1004,6 +1005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5590f0e48fb99814e811fe66603715fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllingBalls: {fileID: 0}
 --- !u!1001 &1016131173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1927,7 +1929,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3370693130932337599, guid: 3527fe3c1eaab1c4894103fea0781e5c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3660356167683387051, guid: 3527fe3c1eaab1c4894103fea0781e5c, type: 3}
       propertyPath: m_Name
@@ -2051,6 +2053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5590f0e48fb99814e811fe66603715fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllingBalls: {fileID: 0}
 --- !u!114 &1754267909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2063,6 +2066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5590f0e48fb99814e811fe66603715fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllingBalls: {fileID: 0}
 --- !u!114 &1754267910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2075,6 +2079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5590f0e48fb99814e811fe66603715fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllingBalls: {fileID: 0}
 --- !u!114 &1754267911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2087,6 +2092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5590f0e48fb99814e811fe66603715fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllingBalls: {fileID: 0}
 --- !u!114 &1754267912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2099,6 +2105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5590f0e48fb99814e811fe66603715fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllingBalls: {fileID: 0}
 --- !u!1001 &1761170507
 PrefabInstance:
   m_ObjectHideFlags: 0
