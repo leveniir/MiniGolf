@@ -18,20 +18,13 @@ public class ScoreboardManager : MonoBehaviour
     public List<List<TextMeshProUGUI>> players;
     public List<List<string>> finalScore;
     public int numOfPlayers;
-    public Behaviour canvas;
-    public TMP_Text playerName;
-    public TMP_Text playerTotalScore;
-    public TMP_Text plaeyrScoreHole1;
-    public TMP_Text plaeyrScoreHole2;
-    public TMP_Text plaeyrScoreHole3;
-    public TMP_Text plaeyrScoreHole4;
-    public TMP_Text plaeyrScoreHole5;
 
     void Awake()
     {
         
         // numofPlayers = funkcja() zwracanie ilosci graczy z serwera 
         // finalScore = funkcaj() zwrocenie posortowanej listy z serwera
+        
        
         players = new List<List<TextMeshProUGUI>> { player1, player2, player3, player4, player5, player6, player7, player8 };
 
@@ -39,33 +32,9 @@ public class ScoreboardManager : MonoBehaviour
         ActivateTexts(numOfPlayers);
         ShowScore(numOfPlayers);
 
-        /*playerName.text = PlayerInfo.playerInfo.playerData[0].playerName.ToString();
-        playerTotalScore.text = LevelManager.Instance.totalPutts.ToString();
-        plaeyrScoreHole1.text = LevelManager.levelData[0][1].ToString();
-        plaeyrScoreHole2.text = LevelManager.levelData[1][1].ToString();
-        plaeyrScoreHole3.text = LevelManager.levelData[2][1].ToString();
-        plaeyrScoreHole4.text = LevelManager.levelData[3][1].ToString();
-        plaeyrScoreHole5.text = LevelManager.levelData[4][1].ToString();
-        scoreboardManager = this;
-        DontDestroyOnLoad(gameObject);
-        canvas.enabled = false;
-         if (scoreboardManager != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        */
         
     }
-    public void UptadeScoreboard()
-    {
-        /*playerTotalScore.text = LevelManager.Instance.totalPutts.ToString();
-        plaeyrScoreHole1.text = LevelManager.levelData[0][1].ToString();
-        plaeyrScoreHole2.text = LevelManager.levelData[1][1].ToString();
-        plaeyrScoreHole3.text = LevelManager.levelData[2][1].ToString();
-        plaeyrScoreHole4.text = LevelManager.levelData[3][1].ToString();
-        plaeyrScoreHole5.text = LevelManager.levelData[4][1].ToString();*/
-    }
+     
     public void DeactivateTexts()
     {
         foreach (var playerList in players)
