@@ -127,7 +127,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6748760155386265542}
-  m_Material: {fileID: 13400000, guid: cdfb18534f6dc9843a836bd3703a5e3c, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -159,6 +159,7 @@ MonoBehaviour:
   puttsCountLabel: {fileID: 0}
   showLevel: {fileID: 0}
   minHoleTime: 1
+  ballStop: 0
 --- !u!54 &3809627413400207650
 Rigidbody:
   m_ObjectHideFlags: 0

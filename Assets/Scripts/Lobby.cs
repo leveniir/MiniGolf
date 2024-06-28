@@ -18,6 +18,7 @@ public class Lobby : MonoBehaviour
     public int time;
     public List<string> players;
     public List<TextMeshProUGUI> playersNames;
+    public Lobby lobby;
 
     void Awake()
     { 
@@ -31,6 +32,8 @@ public class Lobby : MonoBehaviour
         {
             message1.gameObject.SetActive(true);
             timeText.gameObject.SetActive(true);
+            startGame.gameObject.SetActive(true);
+            startGame.enabled = true;
             // time = funkcja zwracajaca czas do rozpoczecia gry 
             CountdownTimer();
         }
@@ -39,14 +42,21 @@ public class Lobby : MonoBehaviour
             message2.gameObject.SetActive(true);
             key.gameObject.SetActive(true);
             startGame.gameObject.SetActive(true);
+            startGame.enabled = true;
             // key.text = funkcja zwracajaca z serwera klucz do pokoju
         }
         else
         {
             message2.gameObject.SetActive(true);
             key.gameObject.SetActive(true);
+            startGame.gameObject.SetActive(true);
+            startGame.enabled = true;
         }
         ActivateTexts(numOfPlayers); // funkcja do wywolywania przez serwer za kazdym razem gdy dolaczy nowy gracz
+    }
+    void Update()
+    {
+    
     }
 
     public void ActivateTexts(int number)
@@ -61,7 +71,8 @@ public class Lobby : MonoBehaviour
                 playersNames[i].text = players[i];
             }
     }
-    IEnumerator CountdownTimer() {
+    IEnumerator CountdownTimer() 
+    {
         while (time> 0) { 
             timeText.text = $"{time}"; 
 
@@ -73,6 +84,8 @@ public class Lobby : MonoBehaviour
     }
     public void StartGame()
     {
+        Debug.Log("1");
+        LoadNextScene();
         // wcisniecie prztcisku
         // wywolanie funkcji rozpoczecia gry dla wszytkich uzytkownikow
     }

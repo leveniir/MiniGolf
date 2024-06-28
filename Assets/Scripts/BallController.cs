@@ -20,6 +20,7 @@ public class BallController : MonoBehaviour
     static public bool allReady; // zwrocenie czy wszycy gracze gotowi 
 
 
+
     private LineRenderer line;
     private Rigidbody ball;
     private float powerUpTime;
@@ -38,7 +39,6 @@ public class BallController : MonoBehaviour
         ballStop = 0;
 
         ball = GetComponent<Rigidbody>();
-        ball.maxAngularVelocity = 1000;
         line = GetComponent<LineRenderer>();
         Cursor.visible = false;
         maxPower = 10;
@@ -96,6 +96,7 @@ public class BallController : MonoBehaviour
 
     private void Putt() {
         lastPosition = transform.position;
+        Debug.Log(cam.eulerAngles.y);
         ball.AddForce(Quaternion.Euler(0f, cam.eulerAngles.y, 0f)*Vector3.forward*maxPower*power,ForceMode.Impulse);
         // funkcja wysylajaca na serwer cam.eulerAngles.y, power i lastPosition.x, last.position.y, lastposition.y
         power = 0;
@@ -129,7 +130,8 @@ public class BallController : MonoBehaviour
     private void CountHoleTime(){
         holeTime += Time.deltaTime;
         if(holeTime >= minHoleTime){
-            ballInHole = true; // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
+            ballInHole = true; 
+            // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
             // allRead = funkcja();
             if (allReady){
             allReady = false;
