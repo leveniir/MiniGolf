@@ -1226,8 +1226,8 @@ MonoBehaviour:
   fullRoomMessage: {fileID: 4869375}
   usernameMessage: {fileID: 374088929}
   roomNotExistMessage: {fileID: 1846629084}
-  cannocConnectMessage: {fileID: 1309857428}
-  showingMessage: 0
+  cannotConnectMessage: {fileID: 1309857428}
+  showingMessage: 1
   username: {fileID: 460948819}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
