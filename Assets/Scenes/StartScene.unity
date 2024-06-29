@@ -425,6 +425,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 374c837c2902dc34287b28360b5ea0ca, type: 3}
+--- !u!114 &374088929 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2333300684297984179, guid: 374c837c2902dc34287b28360b5ea0ca, type: 3}
+  m_PrefabInstance: {fileID: 374088928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &374088930 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8255847574014212426, guid: 374c837c2902dc34287b28360b5ea0ca, type: 3}
@@ -1029,7 +1040,7 @@ MonoBehaviour:
   - {fileID: 7889852157434416717}
   - {fileID: 7889852157434416716}
   fullRoomMessage: {fileID: 4869375}
-  usernameMessage: {fileID: 1846629084}
+  usernameMessage: {fileID: 374088929}
   roomNotExistMessage: {fileID: 1846629084}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
