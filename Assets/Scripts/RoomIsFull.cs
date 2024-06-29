@@ -10,6 +10,7 @@ public class RoomIsFull : MonoBehaviour
     public List<Button> buttons;
     public Image fullRoomMessage;
     public Image usernameMessage;
+    public Image roomNotExistMessage;
 
 
     void Start()
@@ -31,6 +32,8 @@ public class RoomIsFull : MonoBehaviour
             button.interactable = true;
         }
         fullRoomMessage.gameObject.SetActive(false);
+        roomNotExistMessage.gameObject.SetActive(false);
+        usernameMessage.gameObject.SetActive(false);
 
     }
     public void ShowUsernameMessage()
@@ -41,5 +44,14 @@ public class RoomIsFull : MonoBehaviour
         }
         usernameMessage.gameObject.SetActive(true);
     }
+    public void ShowNotExistRoomMessage()
+        {
+             foreach (var button in buttons)
+                {
+                    button.interactable = false;
+                }
+        roomNotExistMessage.gameObject.SetActive(true); 
+        }
+    
 
 }

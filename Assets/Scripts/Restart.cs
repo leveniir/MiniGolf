@@ -12,6 +12,7 @@ public class Restart : MonoBehaviour
         LevelManager.Instance.currentLevel = 3;
         ResetLevelData(5);
         //ScoreboardManager.scoreboardManager.UptadeScoreboard();
+        Time.timeScale = 1;
         SceneManager.LoadScene(1);
 
    }
