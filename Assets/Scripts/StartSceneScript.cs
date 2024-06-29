@@ -28,7 +28,7 @@ public class StartSceneScript : MonoBehaviour
     }
     void Update()
     {
-        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text))
+        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text)&& !RoomIsFull.Instance.showingMessage)
         {
             createUser.interactable = true;
         }

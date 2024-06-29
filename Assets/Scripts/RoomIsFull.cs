@@ -11,15 +11,17 @@ public class RoomIsFull : MonoBehaviour
     public Image fullRoomMessage;
     public Image usernameMessage;
     public Image roomNotExistMessage;
+    public bool showingMessage;
 
 
     void Start()
     {
+        showingMessage = false;
         Instance = this;
-        ShowFullRoomMessage();
     }   
     public void ShowFullRoomMessage()
     {
+        showingMessage = true;
         foreach (var button in buttons)
         {
             button.interactable = false;
@@ -28,6 +30,7 @@ public class RoomIsFull : MonoBehaviour
     }
     public void OkayButton()
     {
+        showingMessage = false;
         foreach (var button in buttons)
         {
             button.interactable = true;
@@ -39,6 +42,7 @@ public class RoomIsFull : MonoBehaviour
     }
     public void ShowUsernameMessage()
     {
+        showingMessage = true;
         foreach (var button in buttons)
         {
             button.interactable = false;
@@ -47,6 +51,7 @@ public class RoomIsFull : MonoBehaviour
     }
     public void ShowNotExistRoomMessage()
         {
+        showingMessage = true;
              foreach (var button in buttons)
                 {
                     button.interactable = false;
