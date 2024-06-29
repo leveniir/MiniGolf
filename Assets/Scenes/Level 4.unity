@@ -1016,9 +1016,6 @@ PrefabInstance:
       addedObject: {fileID: 825372155}
     - targetCorrespondingSourceObject: {fileID: 2134019604766079828, guid: e7078e9f8437c6640b8c7928eff4e4b2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 825372156}
-    - targetCorrespondingSourceObject: {fileID: 2134019604766079828, guid: e7078e9f8437c6640b8c7928eff4e4b2, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 825372157}
     - targetCorrespondingSourceObject: {fileID: 2134019604766079828, guid: e7078e9f8437c6640b8c7928eff4e4b2, type: 3}
       insertIndex: -1
@@ -1050,18 +1047,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &825372156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825372154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2475751a9fbd70428570fbb8248e510, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &825372157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2520,6 +2505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7c0d54ec3415e4bb5c6523df9ebaf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Instance: {fileID: 0}
   disconnectMessage: {fileID: 1705292768}
 --- !u!1001 &2109233087
 PrefabInstance:
