@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class DisconnectMessage : MonoBehaviour
 {
-    public  DisconnectMessage Instance;
-    void Start()
+    public static DisconnectMessage Instance;
+    void Awake()
     {
         Instance = this;
     }
     public Image disconnectMessage;
    
-    public  void ShowDisconnectMessage()
+    public void ShowDisconnectMessage()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

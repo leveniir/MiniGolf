@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,7 +11,7 @@ public class BallController : MonoBehaviour
     public TextMeshProUGUI puttsCountLabel;
     public TextMeshProUGUI showLevel;
     public float minHoleTime;
-    public int ballStop;
+    public bool ballStop;
     static public bool ballInHole;
     static public bool allReady; // zwrocenie czy wszycy gracze gotowi 
 
@@ -29,147 +25,149 @@ public class BallController : MonoBehaviour
     private float holeTime;
     private Vector3 lastPosition;
     private int maxPutts;
-   
+
 
 
     void Awake()
     {
 
         ballInHole = false;
-        ballStop = 0;
+        ballStop = true;
 
         ball = GetComponent<Rigidbody>();
         line = GetComponent<LineRenderer>();
         Cursor.visible = false;
         maxPower = 10;
-    
-        showLevel.text = (LevelManager.Instance.currentLevel-1).ToString();
+
+        showLevel.text = (LevelManager.Instance.currentLevel - 2).ToString();
         maxPutts = 15;
 
     }
 
     void Update()
-    {   
-        print(ball.velocity.magnitude.ToString());
-       if(ball.velocity.magnitude < 0.1f){
-        if((ball.velocity.magnitude==0 && putts == maxPutts && Vector3.Distance(transform.position, lastPosition) > 0f) || TimerCountdown.countdownTime == 0){
-            if (ballStop == 0)
-            {
-                // wywolanie funkcji na serwer, ze pilka sie zatrzymal
-                ballStop++;
-            }
-            // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
-            // allRead = funkcja();
-            if (allReady){
-            allReady = false;
+    {
+        if (Server.Disconnected)
+        {
+            Server.Disconnected = false;
+            DisconnectMessage.Instance.ShowDisconnectMessage();
+        }
+        // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
+        if (Server.Level)
+        {
+            Server.Level = false;
+            holeTime = 0;
             ballInHole = false;
-            LevelManager.Instance.CountPutts(maxPutts+3);
+            LevelManager.Instance.CountPutts(putts);
             LevelManager.Instance.CountTotalPutts();
             LevelManager.Instance.currentLevel++;
-            //ScoreboardManager.scoreboardManager.UptadeScoreboard();
             TimerCountdown.countdownTime = 90f;
             SceneManager.LoadScene(LevelManager.Instance.currentLevel);
+        } 
+        if (!ballInHole && TimerCountdown.countdownTime == 0)
+        {
+            putts = maxPutts + 3;
+            ballInHole = true;
+            Server.Ready(putts);
+        }
+        if (ball.velocity.magnitude < 0.1f)
+        {
+            if (Vector3.Distance(transform.position, lastPosition) > 0f && !ballStop)
+            {
+                // wywolanie funkcji na serwer, ze pilka sie zatrzymal
+                ballStop = true;
+                Server.BallMove(0, 0, 0, transform.position.x, transform.position.y, transform.position.z);
+            }
+            if (!ballInHole && Input.GetKeyUp(KeyCode.Space) && putts != maxPutts)
+            {
+                // wywolanie funkcji przesylajacej na serwer, ze pilka zostala uderzona
+                ballStop = false;
+                Putt();
+                UpdateLinePositions();
+            }
+            if (!ballInHole && Input.GetKey(KeyCode.Space) && putts != maxPutts)
+            {
+                PowerUp();
+                UpdateLinePositions();
             }
         }
-        if(Input.GetKeyUp(KeyCode.Space) && putts != maxPutts){
-            // wywolanie funkcji przesylajacej na serwer, ze pilka zostala uderzona
-            ballStop = 0;
-            Putt();
-            UpdateLinePositions();
+        else
+        {
+            line.enabled = false;
         }
-        if(Input.GetKey(KeyCode.Space) && putts != maxPutts){
-            PowerUp();
-            UpdateLinePositions();
-        }
-       } else {
-        line.enabled = false;
-       }
-       
+
     }
 
     private void UpdateLinePositions()
     {
-        if(holeTime == 0){line.enabled = true;}
-        line.SetPosition(0,transform.position);
-        line.SetPosition(1,transform.position+Quaternion.Euler(0f, cam.eulerAngles.y, 0f)*Vector3.forward*power);
+        if (holeTime == 0) { line.enabled = true; }
+        line.SetPosition(0, transform.position);
+        line.SetPosition(1, transform.position + Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * power);
     }
 
-    private void Putt() {
+    private void Putt()
+    {
         lastPosition = transform.position;
-        Debug.Log(cam.eulerAngles.y);
-        ball.AddForce(Quaternion.Euler(0f, cam.eulerAngles.y, 0f)*Vector3.forward*maxPower*power,ForceMode.Impulse);
+        Vector3 force = Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * maxPower * power;
+        ball.AddForce(force, ForceMode.Impulse);
         // funkcja wysylajaca na serwer cam.eulerAngles.y, power i lastPosition.x, last.position.y, lastposition.y
+        Server.BallMove(force.x, force.y, force.z, lastPosition.x, lastPosition.y, lastPosition.z);
         power = 0;
         powerSlider.value = 0;
         powerUpTime = 0;
         putts++;
         LevelManager.Instance.CountPutts(putts);
         LevelManager.Instance.CountTotalPutts();
-        //ScoreboardManager.scoreboardManager.UptadeScoreboard();
         puttsCountLabel.text = putts.ToString();
     }
 
     private void PowerUp()
     {
         powerUpTime += Time.deltaTime;
-        power = Mathf.PingPong(powerUpTime,1);
+        power = Mathf.PingPong(powerUpTime, 1);
         powerSlider.value = power;
     }
- 
-    private void OnTriggerStay(Collider other){
-        if(other.tag == "Hole")
-            {
-                CountHoleTime();
-            }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Hole")
+        {
+            CountHoleTime();
+        }
     }
-    private void OnTriggerExit(Collider other){
-        if(other.tag == "Hole"){
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Hole")
+        {
             LeftHole();
-            }
+        }
     }
-    private void CountHoleTime(){
+    private void CountHoleTime()
+    {
         holeTime += Time.deltaTime;
-        if(holeTime >= minHoleTime){
-            ballInHole = true; 
-            // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
-            // allRead = funkcja();
-            if (allReady){
-            allReady = false;
-            holeTime = 0;
-            ballInHole = false;
-            LevelManager.Instance.CountPutts(putts);
-            LevelManager.Instance.currentLevel++;
-            LevelManager.Instance.CountTotalPutts();
-            TimerCountdown.countdownTime = 90f;
-            SceneManager.LoadScene(LevelManager.Instance.currentLevel);
-            }
+        if (holeTime >= minHoleTime && !ballInHole)
+        {
+            ballInHole = true; // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
+            Server.Ready(putts);
         }
     }
 
-    private void LeftHole(){
-            holeTime = 0;
-        
+    private void LeftHole()
+    {
+        holeTime = 0;
+
     }
-    private void OnCollisionEnter(Collision collision){
-        if(collision.collider.tag == "Out of bounds"){
-            if(putts == maxPutts)
-            {
-                // nizej wywloanie funkcji do pobrania ze grcz jest gotow przejsc dalej
-                // allRead = funkcja();
-                if (allReady)
-                {
-                    LevelManager.Instance.CountPutts(maxPutts+3);
-                    LevelManager.Instance.CountTotalPutts();
-                    LevelManager.Instance.currentLevel++;
-                    //ScoreboardManager.scoreboardManager.UptadeScoreboard();
-                    TimerCountdown.countdownTime = 90f;
-                    SceneManager.LoadScene(LevelManager.Instance.currentLevel);
-                }
-          
-            }
+    private void OnCollisionEnter(Collision collision)
+    {
+        ballStop = false;
+        if (collision.collider.tag == "Out of bounds")
+        {
             transform.position = lastPosition;
             ball.velocity = Vector3.zero;
             ball.angularVelocity = Vector3.zero;
+        }
+        else if (collision.collider.tag == "Obstacle")
+        {
+            Server.BallMove(collision.impulse.x, collision.impulse.y, collision.impulse.z, transform.position.x, transform.position.y, transform.position.z);
         }
     }
 }

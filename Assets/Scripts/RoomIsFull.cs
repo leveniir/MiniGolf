@@ -49,13 +49,11 @@ public class RoomIsFull : MonoBehaviour
         foreach (var button in buttons)
         {
             button.interactable = true;
-
         }
         fullRoomMessage.gameObject.SetActive(false);
         roomNotExistMessage.gameObject.SetActive(false);
         usernameMessage.gameObject.SetActive(false);
         cannotConnectMessage.gameObject.SetActive(false);
-
     }
     public void ShowUsernameMessage()
     {
