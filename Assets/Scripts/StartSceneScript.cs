@@ -28,7 +28,7 @@ public class StartSceneScript : MonoBehaviour
     }
     void Update()
     {
-        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text)&& !RoomIsFull.Instance.showingMessage)
+        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text)&& !RoomIsFull.Instance.showingMessage && IsRoomIdValid())
         {
             createUser.interactable = true;
         }
@@ -36,11 +36,16 @@ public class StartSceneScript : MonoBehaviour
         {
             createUser.interactable = false;
         }
+        
     }
 
     private bool IsNameValid(string name)
     {
         return Regex.IsMatch(name, @"^[a-zA-Z]{1,5}$");
+    }
+    private bool IsRoomIdValid()
+    {
+        return Regex.IsMatch(privateKey.ToString(), @"^(0[1-9]|[1-9][0-9])$");
     }
 
     public void ButtonCreateUser()

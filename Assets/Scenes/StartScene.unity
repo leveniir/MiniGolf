@@ -441,6 +441,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8255847574014212426, guid: 374c837c2902dc34287b28360b5ea0ca, type: 3}
   m_PrefabInstance: {fileID: 374088928}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &460948819 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8721833961622113276, guid: 35994988cbc6bff41a57f0d8f49dee68, type: 3}
+  m_PrefabInstance: {fileID: 7889852157434416714}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &813907646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,6 +1064,8 @@ MonoBehaviour:
   fullRoomMessage: {fileID: 4869375}
   usernameMessage: {fileID: 374088929}
   roomNotExistMessage: {fileID: 1846629084}
+  showingMessage: 0
+  username: {fileID: 460948819}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

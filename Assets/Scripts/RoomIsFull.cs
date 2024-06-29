@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class RoomIsFull : MonoBehaviour
     public Image usernameMessage;
     public Image roomNotExistMessage;
     public bool showingMessage;
+    public TMP_InputField username;
 
 
     void Start()
@@ -25,6 +27,7 @@ public class RoomIsFull : MonoBehaviour
         foreach (var button in buttons)
         {
             button.interactable = false;
+            username.interactable = false;
         }
         fullRoomMessage.gameObject.SetActive(true);
     }
@@ -34,6 +37,7 @@ public class RoomIsFull : MonoBehaviour
         foreach (var button in buttons)
         {
             button.interactable = true;
+
         }
         fullRoomMessage.gameObject.SetActive(false);
         roomNotExistMessage.gameObject.SetActive(false);
@@ -46,6 +50,8 @@ public class RoomIsFull : MonoBehaviour
         foreach (var button in buttons)
         {
             button.interactable = false;
+            username.interactable = false;
+
         }
         usernameMessage.gameObject.SetActive(true);
     }
@@ -55,6 +61,7 @@ public class RoomIsFull : MonoBehaviour
              foreach (var button in buttons)
                 {
                     button.interactable = false;
+                    username.interactable = false;
                 }
         roomNotExistMessage.gameObject.SetActive(true); 
         }
