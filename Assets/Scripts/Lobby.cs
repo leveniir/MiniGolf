@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,81 +14,80 @@ public class Lobby : MonoBehaviour
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI key;
     public Button startGame;
-    private int roomType;
-    public int numOfPlayers;
-    public int time;
-    public List<string> players;
     public List<TextMeshProUGUI> playersNames;
-    public Lobby lobby;
+    public List<string> players;
 
     void Awake()
-    { 
-        // numOfPlayers = funcja pobierajaca ilosc graczy z serwera 
-        // roomType = Funkcja zwracajaca z serwera typ pokoju
-        //numOfPlayers = 2; test
-        //ActivateTexts(2);test
-        //roomType = 1;test
+    {
+        int roomType = Server.RoomType;
+
+        playersNames[0].gameObject.SetActive(true);
+        playersNames[0].text = Server.Username;
 
         if (roomType == 1)
         {
             message1.gameObject.SetActive(true);
             timeText.gameObject.SetActive(true);
-            startGame.gameObject.SetActive(true);
-            startGame.enabled = true;
-            // time = funkcja zwracajaca czas do rozpoczecia gry 
-            CountdownTimer();
+            StartCoroutine(CountdownTimer());
         }
         else if (roomType == 2)
         {
             message2.gameObject.SetActive(true);
             key.gameObject.SetActive(true);
+            key.text = $"{Server.RoomId:D2}";
             startGame.gameObject.SetActive(true);
-            startGame.enabled = true;
-            // key.text = funkcja zwracajaca z serwera klucz do pokoju
         }
         else
         {
             message2.gameObject.SetActive(true);
             key.gameObject.SetActive(true);
-            startGame.gameObject.SetActive(true);
-            startGame.enabled = true;
+            key.text = $"{Server.RoomId:D2}";
         }
-        ActivateTexts(numOfPlayers); // funkcja do wywolywania przez serwer za kazdym razem gdy dolaczy nowy gracz
     }
     void Update()
     {
-    
-    }
-
-    public void ActivateTexts(int number)
-    {
-        // players = funkjca pobierajaca nazwy uzytkownikow z serwera
-        //List<string> players = new List<string> { "User1", "User2"}; test
-
-        for (int i = 0; i < number; i++)
+        if (!players.SequenceEqual(Server.PlayerNames))
+        {
+            players = Server.PlayerNames;
+            for (int i = 1; i < playersNames.Count; i++)
             {
-                Debug.Log(i);
-                playersNames[i].gameObject.SetActive(true);
-                playersNames[i].text = players[i];
+                if (i <= players.Count)
+                {
+                    playersNames[i].gameObject.SetActive(true);
+                    playersNames[i].text = players[i - 1];
+                }
+                else if (i > players.Count)
+                {
+                    playersNames[i].gameObject.SetActive(false);
+                }
             }
-    }
-    IEnumerator CountdownTimer() 
-    {
-        while (time> 0) { 
-            timeText.text = $"{time}"; 
-
-            yield return new WaitForSeconds(1); 
-            time -= 1; 
         }
+        if (Server.Disconnected)
+        {
+            DisconnectMessage.Instance.ShowDisconnectMessage();
+            Server.Disconnected = false;
+        }
+        else if (Server.Level)
+        {
+            Server.Level = false;
+            LoadNextScene();
+        }
+    }
+    IEnumerator CountdownTimer()
+    {
+        long time;
+        do
+        {
+            time = Server.Countdown - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            timeText.text = $"{time}";
+
+            yield return new WaitForSeconds(1);
+        } while (time > 0);
         timeText.text = "0";
-        time = 0;
     }
     public void StartGame()
     {
-        Debug.Log("1");
-        LoadNextScene();
-        // wcisniecie prztcisku
-        // wywolanie funkcji rozpoczecia gry dla wszytkich uzytkownikow
+        Server.Start();
     }
     public void LoadNextScene()
     {

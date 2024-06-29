@@ -18,7 +18,7 @@ public class OtherPlayersCollision : MonoBehaviour
         if (collision.collider.tag == "Out of bounds")
         {  
             objectName = gameObject.name;
-            ballPosition = new Vector3 (LevelManager.Instance.ballsData[name][3], LevelManager.Instance.ballsData[name][4], LevelManager.Instance.ballsData[name][5]);
+            ballPosition = new Vector3 (ControllingBalls.Instance.ballsData[name][3], ControllingBalls.Instance.ballsData[name][4], ControllingBalls.Instance.ballsData[name][5]);
             thisRigidbody.position = ballPosition;
             thisRigidbody.velocity = Vector3.zero;
             thisRigidbody.angularVelocity = Vector3.zero;

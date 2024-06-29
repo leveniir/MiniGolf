@@ -28,7 +28,28 @@ public class StartSceneScript : MonoBehaviour
     }
     void Update()
     {
-        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text)&& !RoomIsFull.Instance.showingMessage && IsRoomIdValid())
+        if (Server.Duplicate)
+        {
+            Server.Duplicate = false;
+            RoomIsFull.Instance.ShowUsernameMessage();
+        }
+        else if (Server.Disconnected)
+        {
+            Server.Disconnected = false;
+            RoomIsFull.Instance.CannotConnectMessage();
+        }
+        else if (Server.InvalidId)
+        {
+            Server.InvalidId = false;
+            RoomIsFull.Instance.ShowNotExistRoomMessage();
+        }
+        else if (Server.FullRoom)
+        {
+            Server.FullRoom = false;
+            RoomIsFull.Instance.ShowFullRoomMessage();
+        }
+
+        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text) && !RoomIsFull.Instance.showingMessage && IsRoomIdValid())
         {
             createUser.interactable = true;
         }
@@ -45,14 +66,22 @@ public class StartSceneScript : MonoBehaviour
     }
     private bool IsRoomIdValid()
     {
-        return Regex.IsMatch(privateKey.ToString(), @"^(0[1-9]|[1-9][0-9])$");
+        return roomType == 2 || Regex.IsMatch(privateKey.text.ToString(), @"^(0[1-9]|[1-9][0-9])$");
     }
 
     public void ButtonCreateUser()
-    {    
+    {
+        int roomId = -1;
+        if (roomType == 2)
+            roomId = 0;
+        else if (roomType == 3)
+            if (!int.TryParse(privateKey.text, out roomId))
+                return;
+        if (!Server.Connect(inputPlayerName.text, roomId))
+            return;
         player.CreatePlayer(inputPlayerName.text);
         SceneManager.LoadScene(2);
-    } 
+    }
 
     public void HideButtons()
     {
@@ -69,7 +98,7 @@ public class StartSceneScript : MonoBehaviour
         privateKey.gameObject.SetActive(false);
         roomType = 1;
         HideButtons();
-       
+
     }
     public void PrivateButton()
     {
