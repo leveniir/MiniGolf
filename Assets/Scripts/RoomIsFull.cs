@@ -16,6 +16,7 @@ public class RoomIsFull : MonoBehaviour
     void Start()
     {
         Instance = this;
+        ShowFullRoomMessage();
     }   
     public void ShowFullRoomMessage()
     {

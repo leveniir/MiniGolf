@@ -173,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7642611001361381860, guid: 374c837c2902dc34287b28360b5ea0ca, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8255847574014212426, guid: 374c837c2902dc34287b28360b5ea0ca, type: 3}
       propertyPath: m_Pivot.x
@@ -533,6 +533,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1128337712 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7535914954606777283, guid: 35994988cbc6bff41a57f0d8f49dee68, type: 3}
+  m_PrefabInstance: {fileID: 7889852157434416714}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1165249321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,7 +1048,7 @@ MonoBehaviour:
   - {fileID: 7889852157434416719}
   - {fileID: 7889852157434416718}
   - {fileID: 7889852157434416717}
-  - {fileID: 7889852157434416717}
+  - {fileID: 1128337712}
   - {fileID: 7889852157434416716}
   fullRoomMessage: {fileID: 4869375}
   usernameMessage: {fileID: 374088929}

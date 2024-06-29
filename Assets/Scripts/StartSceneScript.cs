@@ -18,13 +18,13 @@ public class StartSceneScript : MonoBehaviour
     public Button create_room;
     public int roomType;
     public Image disconnectMessage;
+    public StartSceneScript startSceneScript;
 
     void Awake()
     {
         roomType = 0;
         privateKey.gameObject.SetActive(false);
         HideButtons();
-        
     }
     void Update()
     {
