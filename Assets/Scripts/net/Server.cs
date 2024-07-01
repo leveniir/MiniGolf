@@ -261,16 +261,18 @@ public static class Server
 
     private static Request Receive()
     {
+        byte[] buffer = new byte[0];
         try
         {
-            int len;
-            byte[] buffer = new byte[0];
             do
             {
-                len = socket.Available;
-                if (len > 0) buffer = new byte[len];
+                if (socket.Available == 0)
+                    continue;
+                buffer = new byte[1];
                 socket.Receive(buffer);
-            } while (len == 0);
+                buffer = new byte[buffer[0]];
+                socket.Receive(buffer);
+            } while (buffer.Length == 0);
             return new Request(new List<byte>(buffer));
         }
         catch (SocketException)
@@ -286,6 +288,7 @@ public static class Server
         List<byte> data = request.Data;
         try
         {
+            data.Insert(0, (byte)data.Count);
             socket.Send(data.ToArray());
         }
         catch (SocketException)
