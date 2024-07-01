@@ -19,6 +19,7 @@ public class StartSceneScript : MonoBehaviour
     public int roomType;
     public Image disconnectMessage;
     public StartSceneScript startSceneScript;
+    public Image exitMessage;
 
     void Awake()
     {
@@ -49,7 +50,7 @@ public class StartSceneScript : MonoBehaviour
             RoomIsFull.Instance.ShowFullRoomMessage();
         }
 
-        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text) && !RoomIsFull.Instance.showingMessage && IsRoomIdValid())
+        if (roomType != 0 && !(inputPlayerName.text == "") && IsNameValid(inputPlayerName.text) && !RoomIsFull.Instance.showingMessage && IsRoomIdValid() && !exitMessage.IsActive())
         {
             createUser.interactable = true;
         }
@@ -66,7 +67,7 @@ public class StartSceneScript : MonoBehaviour
     }
     private bool IsRoomIdValid()
     {
-        return roomType == 2 || Regex.IsMatch(privateKey.text.ToString(), @"^(0[1-9]|[1-9][0-9])$");
+        return roomType == 1 || roomType == 2 || Regex.IsMatch(privateKey.text.ToString(), @"^(0[1-9]|[1-9][0-9])$");
     }
 
     public void ButtonCreateUser()
