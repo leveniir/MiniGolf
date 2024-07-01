@@ -63,7 +63,7 @@ public class BallController : MonoBehaviour
             TimerCountdown.countdownTime = 90f;
             SceneManager.LoadScene(LevelManager.Instance.currentLevel);
         } 
-        if (!ballInHole && TimerCountdown.countdownTime == 0)
+        if (!ballInHole && (TimerCountdown.countdownTime == 0 || putts == maxPutts))
         {
             putts = maxPutts + 3;
             ballInHole = true;
