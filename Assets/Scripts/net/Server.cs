@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -80,6 +81,8 @@ public static class Server
         set => invalidId = value;
     }
 
+    private static DateTime lastActive;
+
     private static Dictionary<string, float[]> players = new();
     public static int PlayerCount
     {
@@ -125,8 +128,8 @@ public static class Server
         data.InsertRange(5, Encoding.ASCII.GetBytes(username));
         Send(new Request(data));
 
-        Request request = Receive();
-        if (request != Request.Type.ROOM_ID)
+        Request request = Receive(0, 0);
+        if (request != Request.Type.HELLO)
         {
             if (request == Request.Type.INVALID && request.Data.Count > 1)
             {
@@ -182,18 +185,12 @@ public static class Server
 
     public static void Start()
     {
-        Send(new Request(new List<byte>() { (byte)Request.Type.LEVEL }));
+        Send(new Request(new List<byte>() { (byte)Request.Type.READY }));
     }
 
     public static void Ready(int score)
     {
         Send(new Request(new List<byte>() { (byte)Request.Type.READY, (byte)score }));
-    }
-
-    public static int[] Ranking()
-    {
-        Request request = Receive();
-        return request.Data.ToArray().ConvertTo<int[]>();
     }
 
     private static float BytesToFloat(byte[] b, int i)
@@ -210,10 +207,10 @@ public static class Server
     {
         while (state != State.FINISH)
         {
-            Request request = Receive();
-            if (request == Request.Type.HELLO)
-                Send(new Request(new List<byte>() { (byte)Request.Type.OK }));
-            else if (request == Request.Type.USERNAME)
+            if (DateTime.Now - lastActive > TimeSpan.FromSeconds(5))
+                Send(new Request(new List<byte> { (byte)Request.Type.HELLO }));
+            Request request = Receive(1, 1);
+            if (request == Request.Type.USERNAME)
             {
                 string[] usernames = Encoding.ASCII.GetString(request.Data.ToArray(), 1, request.Data.Count - 1).Split('\0');
                 foreach (string username in usernames)
@@ -225,7 +222,7 @@ public static class Server
                     else
                         scores.Add(username, new int[5]);
             }
-            else if (request == Request.Type.LEVEL)
+            else if (request == Request.Type.READY)
             {
                 if (state != State.LOBBY)
                 {
@@ -259,28 +256,22 @@ public static class Server
         catch (Exception) { }
     }
 
-    private static Request Receive()
+    private static Request Receive(uint count, int timeout)
     {
-        byte[] buffer = new byte[0];
-        try
+        do
         {
-            do
+            int len = socket.Available;
+            if (len > 0 || count == 0)
             {
-                if (socket.Available == 0)
-                    continue;
-                buffer = new byte[1];
+                byte[] buffer = new byte[1];
                 socket.Receive(buffer);
                 buffer = new byte[buffer[0]];
                 socket.Receive(buffer);
-            } while (buffer.Length == 0);
-            return new Request(new List<byte>(buffer));
-        }
-        catch (SocketException)
-        {
-            state = State.FINISH;
-            disconnected = true;
-            return new Request(new List<byte>() { (byte)Request.Type.INVALID });
-        }
+                return new Request(new List<byte>(buffer));
+            }
+            Thread.Sleep(timeout);
+        } while (--count > 0);
+        return new Request(new List<byte>() { (byte)Request.Type.INVALID });
     }
 
     private static void Send(Request request)
@@ -290,6 +281,7 @@ public static class Server
         {
             data.Insert(0, (byte)data.Count);
             socket.Send(data.ToArray());
+            lastActive = DateTime.Now;
         }
         catch (SocketException)
         {
