@@ -15,11 +15,8 @@ public class Request
     public enum Type
     {
         INVALID,
-        OK,
         HELLO,
         USERNAME,
-        ROOM_ID,
-        LEVEL,
         MOVE,
         READY
     }

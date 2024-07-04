@@ -64,8 +64,8 @@ public class Lobby : MonoBehaviour
         }
         if (Server.Disconnected)
         {
-            DisconnectMessage.Instance.ShowDisconnectMessage();
             Server.Disconnected = false;
+            DisconnectMessage.Instance.ShowDisconnectMessage();
         }
         else if (Server.Level)
         {
