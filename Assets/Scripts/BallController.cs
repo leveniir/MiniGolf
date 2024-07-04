@@ -25,7 +25,7 @@ public class BallController : MonoBehaviour
     private float holeTime;
     private Vector3 lastPosition;
     private int maxPutts;
-
+    private bool ballTrigger;
 
 
     void Awake()
@@ -33,6 +33,7 @@ public class BallController : MonoBehaviour
 
         ballInHole = false;
         ballStop = true;
+        putts = 0;
 
         ball = GetComponent<Rigidbody>();
         line = GetComponent<LineRenderer>();
@@ -41,6 +42,7 @@ public class BallController : MonoBehaviour
 
         showLevel.text = (LevelManager.Instance.currentLevel - 2).ToString();
         maxPutts = 15;
+        ballTrigger = false;
 
     }
 
@@ -63,7 +65,7 @@ public class BallController : MonoBehaviour
             TimerCountdown.countdownTime = 90f;
             SceneManager.LoadScene(LevelManager.Instance.currentLevel);
         } 
-        if (!ballInHole && (TimerCountdown.countdownTime == 0 || (ball.velocity.magnitude==0 &&putts == maxPutts && Vector3.Distance(transform.position, lastPosition) > 0f )))
+        if (!ballTrigger && !ballInHole && ((TimerCountdown.countdownTime == 0) || (ball.velocity.magnitude==0 && putts == maxPutts && Vector3.Distance(transform.position, lastPosition) > 0f )))
         {
             putts = maxPutts + 3;
             ballInHole = true;
@@ -131,6 +133,7 @@ public class BallController : MonoBehaviour
     {
         if (other.tag == "Hole")
         {
+            ballTrigger = true;
             CountHoleTime();
         }
     }
@@ -138,6 +141,7 @@ public class BallController : MonoBehaviour
     {
         if (other.tag == "Hole")
         {
+            ballTrigger = false;
             LeftHole();
         }
     }
